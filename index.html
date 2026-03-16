@@ -14,10 +14,8 @@
         label { display: block; margin-bottom: 5px; font-size: 0.9em; font-weight: bold; }
         input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
         
-        /* Price Tag */
         .price-tag { background: #e8f5e9; padding: 10px; border-radius: 8px; text-align: center; font-size: 1.2em; font-weight: bold; color: var(--accent); margin: 15px 0; border: 1px dashed var(--accent); }
         
-        /* Plus Icon Upload Styling */
         .upload-container {
             display: flex;
             flex-wrap: wrap;
@@ -47,7 +45,7 @@
         }
         .preview-box img { width: 80px; height: 80px; object-fit: cover; border-radius: 10px; border: 1px solid #ddd; }
         
-        #imageInput { display: none; } /* Hidden original input */
+        #imageInput { display: none; }
 
         .btn-whatsapp { width: 100%; padding: 15px; background: #25D366; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
         .btn-whatsapp:hover { background: #128C7E; }
@@ -100,13 +98,13 @@
     <div class="form-group">
         <label>Paper Size</label>
         <select id="size" onchange="calculatePrice()">
-            <option value="A4" data-base="1000">A4 Size - ₹1000</option>
-            <option value="A3" data-base="2000">A3 Size - ₹2000</option>
-            <option value="A2" data-base="3000">A2 Size - ₹3000</option>
+            <option value="A4" data-base="999">A4 Size - ₹999</option>
+            <option value="A3" data-base="1999">A3 Size - ₹1999</option>
+            <option value="A2" data-base="2999">A2 Size - ₹2999</option>
         </select>
     </div>
 
-    <div class="price-tag" id="totalPriceDisplay">Total: ₹1000</div>
+    <div class="price-tag" id="totalPriceDisplay">Total: ₹999</div>
 
     <div class="form-group">
         <label>Reference Photos</label>
@@ -196,4 +194,5 @@
 
 </body>
 </html>
+
 
