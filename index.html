@@ -5,188 +5,145 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Handmade Art Store</title>
     <style>
-        :root { --primary: #2c3e50; --accent: #27ae60; }
+        :root { --primary: #2c3e50; --accent: #27ae60; --gray: #bdc3c7; }
         body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; padding: 15px; color: #333; }
-        .container { max-width: 500px; background: white; margin: auto; padding: 20px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        h2 { text-align: center; color: var(--primary); margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-        h3 { font-size: 1.1em; color: var(--primary); margin: 20px 0 10px; border-left: 4px solid var(--accent); padding-left: 10px; }
+        .container { max-width: 500px; background: white; margin: auto; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        
+        /* Progress Bar */
+        .progress-container { display: flex; justify-content: space-between; margin-bottom: 30px; position: relative; }
+        .progress-step { width: 30px; height: 30px; background: var(--gray); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; z-index: 1; }
+        .progress-step.active { background: var(--accent); }
+        .progress-line { position: absolute; top: 15px; left: 0; height: 2px; background: var(--gray); width: 100%; z-index: 0; }
+
+        .step-page { display: none; }
+        .step-page.active { display: block; animation: fadeIn 0.4s; }
+
+        h2 { text-align: center; color: var(--primary); margin-bottom: 20px; }
         .form-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 5px; font-size: 0.9em; font-weight: bold; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
         
-        .price-tag { background: #e8f5e9; padding: 10px; border-radius: 8px; text-align: center; font-size: 1.2em; font-weight: bold; color: var(--accent); margin: 15px 0; border: 1px dashed var(--accent); }
-        
-        .upload-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        .add-photo-btn {
-            width: 80px;
-            height: 80px;
-            border: 2px dashed #cbd5e0;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-            color: #94a3b8;
-            cursor: pointer;
-            background: #f8fafc;
-            transition: 0.3s;
-        }
-        .add-photo-btn:hover { border-color: var(--accent); color: var(--accent); }
-        
-        .preview-box { 
-            display: flex; 
-            flex-wrap: wrap; 
-            gap: 10px; 
-        }
-        .preview-box img { width: 80px; height: 80px; object-fit: cover; border-radius: 10px; border: 1px solid #ddd; }
-        
-        #imageInput { display: none; }
+        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
+        button { flex: 1; padding: 12px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-next { background: var(--primary); color: white; }
+        .btn-prev { background: #eee; color: #555; }
+        .btn-whatsapp { background: #25D366; color: white; }
 
-        .btn-whatsapp { width: 100%; padding: 15px; background: #25D366; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        .btn-whatsapp:hover { background: #128C7E; }
-        .address-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .instruction { font-size: 0.8em; color: #666; margin-top: 5px; font-style: italic; }
+        .upload-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+        .add-photo-btn { width: 70px; height: 70px; border: 2px dashed #94a3b8; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; }
+        .preview-box img { width: 70px; height: 70px; object-fit: cover; border-radius: 10px; margin-right: 5px; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h2>Handmade Art</h2>
-    
-    <div class="form-group">
-        <label>Aapka Naam</label>
-        <input type="text" id="custName" placeholder="Full Name">
-    </div>
-    <div class="form-group">
-        <label>Mobile Number</label>
-        <input type="tel" id="custPhone" placeholder="Mobile Number">
+
+    <div class="progress-container">
+        <div class="progress-line"></div>
+        <div class="progress-step active" id="p1">1</div>
+        <div class="progress-step" id="p2">2</div>
+        <div class="progress-step" id="p3">3</div>
     </div>
 
-    <h3>Delivery Address</h3>
-    <div class="form-group">
-        <label>State</label>
-        <input type="text" id="state" placeholder="State ka naam">
-    </div>
-    <div class="address-grid">
+    <div class="step-page active" id="step1">
+        <h3>Step 1: Aapki Jankari</h3>
         <div class="form-group">
-            <label>District</label>
-            <input type="text" id="district" placeholder="Zila">
+            <label>Pura Naam</label>
+            <input type="text" id="custName" placeholder="Apna naam likhein">
         </div>
         <div class="form-group">
-            <label>Pin Code</label>
-            <input type="number" id="pincode" placeholder="Pincode">
+            <label>Gmail ID</label>
+            <input type="email" id="custEmail" placeholder="example@gmail.com">
+        </div>
+        <div class="btn-group">
+            <button class="btn-next" onclick="nextStep(2)">Aage Badhein</button>
         </div>
     </div>
-    <div class="form-group">
-        <label>Full Address</label>
-        <textarea id="fullAddress" rows="2" placeholder="House No, Area, Post Office..."></textarea>
-    </div>
 
-    <h3>Order Settings</h3>
-    <div class="form-group">
-        <label>Sketch Medium</label>
-        <select id="medium" onchange="calculatePrice()">
-            <option value="Pencil" data-extra="0">Pencil Sketch (Simple)</option>
-            <option value="Charcoal" data-extra="200">Charcoal Sketch (+₹200)</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label>Paper Size</label>
-        <select id="size" onchange="calculatePrice()">
-            <option value="A4" data-base="999">A4 Size - ₹999</option>
-            <option value="A3" data-base="1999">A3 Size - ₹1999</option>
-            <option value="A2" data-base="2999">A2 Size - ₹2999</option>
-        </select>
-    </div>
-
-    <div class="price-tag" id="totalPriceDisplay">Total: ₹999</div>
-
-    <div class="form-group">
-        <label>Reference Photos</label>
-        <div class="upload-container">
-            <div id="previewContainer" class="preview-box"></div>
-            
-            <label for="imageInput" class="add-photo-btn">+</label>
-            <input type="file" id="imageInput" accept="image/*" multiple onchange="previewImages()">
+    <div class="step-page" id="step2">
+        <h3>Step 2: Delivery Address</h3>
+        <div class="form-group">
+            <label>Mobile Number</label>
+            <input type="tel" id="custPhone" placeholder="Mobile Number">
         </div>
-        <p class="instruction">*Plus (+) par click karke photos select karein.</p>
+        <div class="form-group">
+            <label>Full Address</label>
+            <textarea id="fullAddress" rows="3" placeholder="Ghar ka pata, Pincode ke saath..."></textarea>
+        </div>
+        <div class="btn-group">
+            <button class="btn-prev" onclick="nextStep(1)">Peeche</button>
+            <button class="btn-next" onclick="nextStep(3)">Aage Badhein</button>
+        </div>
     </div>
 
-    <button class="btn-whatsapp" onclick="sendOrder()">Order on WhatsApp</button>
-    <p style="font-size: 11px; text-align: center; color: #888; margin-top: 10px;">Note: Button dabane ke baad WhatsApp par photos attach karke bhejein.</p>
+    <div class="step-page" id="step3">
+        <h3>Step 3: Photo Upload</h3>
+        <div class="form-group">
+            <label>Reference Photos</label>
+            <div class="upload-container">
+                <div id="previewContainer" class="preview-box"></div>
+                <label for="imageInput" class="add-photo-btn">+</label>
+                <input type="file" id="imageInput" accept="image/*" multiple onchange="previewImages()">
+            </div>
+            <p style="font-size: 12px; color: #666;">*Kripya achhi quality ki photos select karein.</p>
+        </div>
+        
+        <div class="btn-group">
+            <button class="btn-prev" onclick="nextStep(2)">Peeche</button>
+            <button class="btn-whatsapp" onclick="sendOrder()">Order on WhatsApp</button>
+        </div>
+    </div>
 </div>
 
 <script>
-    function calculatePrice() {
-        const sizeSelect = document.getElementById('size');
-        const mediumSelect = document.getElementById('medium');
-        const basePrice = parseInt(sizeSelect.options[sizeSelect.selectedIndex].getAttribute('data-base'));
-        const extraPrice = parseInt(mediumSelect.options[mediumSelect.selectedIndex].getAttribute('data-extra'));
-        const total = basePrice + extraPrice;
-        document.getElementById('totalPriceDisplay').innerText = "Total: ₹" + total;
+    function nextStep(step) {
+        document.querySelectorAll('.step-page').forEach(page => page.classList.remove('active'));
+        document.getElementById('step' + step).classList.add('active');
+        
+        document.querySelectorAll('.progress-step').forEach((dot, index) => {
+            if(index < step) dot.classList.add('active');
+            else dot.classList.remove('active');
+        });
     }
 
     function previewImages() {
         const files = document.getElementById('imageInput').files;
         const previewContainer = document.getElementById('previewContainer');
         previewContainer.innerHTML = ''; 
-
-        if (files.length > 0) {
-            Array.from(files).forEach(file => {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    previewContainer.appendChild(img);
-                }
-                reader.readAsDataURL(file);
-            });
-        }
+        Array.from(files).forEach(file => {
+            const reader = new FileReader();
+            reader.onload = e => {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                previewContainer.appendChild(img);
+            }
+            reader.readAsDataURL(file);
+        });
     }
 
     function sendOrder() {
         const name = document.getElementById('custName').value;
+        const email = document.getElementById('custEmail').value;
         const phone = document.getElementById('custPhone').value;
-        const state = document.getElementById('state').value;
-        const district = document.getElementById('district').value;
-        const pin = document.getElementById('pincode').value;
         const address = document.getElementById('fullAddress').value;
-        const medium = document.getElementById('medium').value;
-        const size = document.getElementById('size').value;
-        const price = document.getElementById('totalPriceDisplay').innerText;
         const fileCount = document.getElementById('imageInput').files.length;
 
-        if(!name || !phone || !address || !pin) {
-            alert("Kripya saari jankari bharein!");
-            return;
-        }
-
-        if(fileCount === 0) {
-            alert("Kripya kam se kam ek photo select karein!");
+        if(!name || !email || !address || !phone || fileCount === 0) {
+            alert("Kripya saari details bharein aur kam se kam ek photo select karein!");
             return;
         }
 
         const myNumber = "9239394050"; 
-        
-        const message = `*NAYA HANDMADE ART ORDER!*%0A%0A` +
-                        `*--- Customer Details ---*%0A` +
+        const message = `*NAYA ART ORDER!*%0A%0A` +
                         `*Naam:* ${name}%0A` +
-                        `*Phone:* ${phone}%0A%0A` +
-                        `*--- Shipping Address ---*%0A` +
+                        `*Email:* ${email}%0A` +
+                        `*Phone:* ${phone}%0A` +
                         `*Pata:* ${address}%0A` +
-                        `*Zila:* ${district}, ${state}%0A` +
-                        `*Pincode:* ${pin}%0A%0A` +
-                        `*--- Order Details ---*%0A` +
-                        `*Medium:* ${medium}%0A` +
-                        `*Size:* ${size}%0A` +
-                        `*Total Amount:* ${price}%0A` +
-                        `*Photos Selected:* ${fileCount}%0A%0A` +
-                        `_Kripya apni photos ab niche attach karke bhejein._`;
+                        `*Uploaded Photos:* ${fileCount}%0A%0A` +
+                        `_Ab apni photos attach karke send karein._`;
         
         window.open(`https://wa.me/${myNumber}?text=${message}`, '_blank');
     }
