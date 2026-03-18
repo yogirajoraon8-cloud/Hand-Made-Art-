@@ -1,13 +1,20 @@
-<!DOCTYPE html>
+
+    <!DOCTYPE html>
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Handmade Art Store</title>
+    <title>Premium Handmade Art Store</title>
     <style>
-        :root { --primary: #2c3e50; --accent: #27ae60; --gray: #bdc3c7; }
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; padding: 15px; color: #333; }
-        .container { max-width: 500px; background: white; margin: auto; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        :root { --primary: #2c3e50; --accent: #27ae60; --gray: #bdc3c7; --blue: #3498db; --gold: #f39c12; --light-gold: #fffcf5; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; padding: 0; margin: 0; color: #333; }
+        
+        /* 1. Naya Offer Banner */
+        .offer-banner { background: var(--primary); color: white; text-align: center; padding: 8px; font-size: 13px; font-weight: bold; overflow: hidden; }
+        .scrolling-text { display: inline-block; white-space: nowrap; animation: scroll-left 15s linear infinite; }
+        @keyframes scroll-left { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+        .container { max-width: 500px; background: white; margin: 15px auto; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         
         /* Progress Bar */
         .progress-container { display: flex; justify-content: space-between; margin-bottom: 30px; position: relative; }
@@ -18,28 +25,46 @@
         .step-page { display: none; }
         .step-page.active { display: block; animation: fadeIn 0.4s; }
 
-        h2 { text-align: center; color: var(--primary); margin-bottom: 20px; }
+        h2 { text-align: center; color: var(--primary); margin-top: 0; }
         .form-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 5px; font-size: 0.9em; font-weight: bold; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        input, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
         
-        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
+        .btn-group { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+        .btn-row { display: flex; gap: 10px; }
         button { flex: 1; padding: 12px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        
         .btn-next { background: var(--primary); color: white; }
         .btn-prev { background: #eee; color: #555; }
         .btn-whatsapp { background: #25D366; color: white; }
+        
+        /* Summary Box */
+        .summary-box { background: #f9f9f9; padding: 10px; border-radius: 8px; border-left: 4px solid var(--accent); margin-bottom: 15px; font-size: 13px; }
 
-        .upload-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
-        .add-photo-btn { width: 70px; height: 70px; border: 2px dashed #94a3b8; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; }
-        .preview-box img { width: 70px; height: 70px; object-fit: cover; border-radius: 10px; margin-right: 5px; }
+        /* Gallery Style */
+        .gallery-wrapper { margin-top: 25px; padding: 12px; background: var(--light-gold); border-radius: 10px; border: 1px solid #f9e1b5; }
+        .gallery-title { font-size: 14px; font-weight: bold; color: #a67c00; margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
+        .scroll-container { display: flex; overflow-x: auto; gap: 12px; padding-bottom: 10px; scrollbar-width: none; }
+        .scroll-container::-webkit-scrollbar { display: none; }
+        .portrait-card { min-width: 140px; background: white; border-radius: 10px; overflow: hidden; border: 1px solid #eee; }
+        .portrait-card img { width: 100%; height: 130px; object-fit: cover; }
+        .card-info { padding: 8px; text-align: center; }
+        .buy-small-btn { background: var(--accent); color: white; border: none; padding: 6px; border-radius: 5px; font-size: 11px; width: 100%; margin-top: 5px; }
+
+        /* Floating Call Button */
+        .floating-call { position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; background: var(--blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); text-decoration: none; z-index: 100; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
+<div class="offer-banner">
+    <div class="scrolling-text">🎨 10% Discount on First Custom Order! • Free Home Delivery for 2+ Portraits • Order Now! 🎨</div>
+</div>
+
 <div class="container">
-    <h2>Handmade Art</h2>
+    <h2>Art Store</h2>
 
     <div class="progress-container">
         <div class="progress-line"></div>
@@ -49,105 +74,101 @@
     </div>
 
     <div class="step-page active" id="step1">
-        <h3>Step 1: Aapki Jankari</h3>
-        <div class="form-group">
-            <label>Pura Naam</label>
-            <input type="text" id="custName" placeholder="Apna naam likhein">
-        </div>
-        <div class="form-group">
-            <label>Gmail ID</label>
-            <input type="email" id="custEmail" placeholder="example@gmail.com">
-        </div>
-        <div class="btn-group">
-            <button class="btn-next" onclick="nextStep(2)">Aage Badhein</button>
-        </div>
+        <div class="form-group"><label>Pura Naam</label><input type="text" id="custName" placeholder="Naam likhein"></div>
+        <div class="form-group"><label>Gmail ID</label><input type="email" id="custEmail" placeholder="example@gmail.com"></div>
+        <div class="form-group"><label>Phone Number</label><input type="tel" id="custPhone" placeholder="Mobile number"></div>
+        <div class="btn-group"><button class="btn-next" onclick="nextStep(2)">Aage Badhein</button></div>
     </div>
 
     <div class="step-page" id="step2">
-        <h3>Step 2: Delivery Address</h3>
-        <div class="form-group">
-            <label>Mobile Number</label>
-            <input type="tel" id="custPhone" placeholder="Mobile Number">
-        </div>
-        <div class="form-group">
-            <label>Full Address</label>
-            <textarea id="fullAddress" rows="3" placeholder="Ghar ka pata, Pincode ke saath..."></textarea>
-        </div>
+        <div class="form-group"><label>Ghar ka Pata</label><textarea id="houseAddress" rows="2"></textarea></div>
+        <div class="form-group"><label>District</label><input type="text" id="district"></div>
+        <div class="form-group"><label>State</label><input type="text" id="state"></div>
+        <div class="form-group"><label>Pin Code</label><input type="number" id="pincode"></div>
         <div class="btn-group">
-            <button class="btn-prev" onclick="nextStep(1)">Peeche</button>
-            <button class="btn-next" onclick="nextStep(3)">Aage Badhein</button>
+            <div class="btn-row">
+                <button class="btn-prev" onclick="nextStep(1)">Peeche</button>
+                <button class="btn-next" onclick="showSummary()">Details Check Karein</button>
+            </div>
         </div>
     </div>
 
     <div class="step-page" id="step3">
-        <h3>Step 3: Photo Upload</h3>
-        <div class="form-group">
-            <label>Reference Photos</label>
-            <div class="upload-container">
-                <div id="previewContainer" class="preview-box"></div>
-                <label for="imageInput" class="add-photo-btn">+</label>
-                <input type="file" id="imageInput" accept="image/*" multiple onchange="previewImages()">
-            </div>
-            <p style="font-size: 12px; color: #666;">*Kripya achhi quality ki photos select karein.</p>
-        </div>
+        <div id="orderSummary" class="summary-box"></div>
         
+        <div class="form-group">
+            <label>Photo Attach Karein (Custom Order)</label>
+            <input type="file" id="imageInput" multiple onchange="previewImages()" style="padding:5px;">
+        </div>
+
         <div class="btn-group">
-            <button class="btn-prev" onclick="nextStep(2)">Peeche</button>
-            <button class="btn-whatsapp" onclick="sendOrder()">Order on WhatsApp</button>
+            <div class="btn-row">
+                <button class="btn-prev" onclick="nextStep(2)">Badle</button>
+                <button class="btn-whatsapp" onclick="sendOrder()">Final Order WhatsApp</button>
+            </div>
+        </div>
+
+        <div class="gallery-wrapper">
+            <div class="gallery-title">🖼️ Collection Se Kharidein</div>
+            <div class="scroll-container">
+                <div class="portrait-card">
+                    <img src="https://via.placeholder.com/150" alt="Art 1">
+                    <div class="card-info">
+                        <p style="margin:0; font-size:12px;">Lord Krishna</p>
+                        <button class="buy-small-btn" onclick="buyPortrait('Lord Krishna', '1499')">₹1499</button>
+                    </div>
+                </div>
+                <div class="portrait-card">
+                    <img src="https://via.placeholder.com/150" alt="Art 2">
+                    <div class="card-info">
+                        <p style="margin:0; font-size:12px;">Shiv Ji</p>
+                        <button class="buy-small-btn" onclick="buyPortrait('Shiv Ji', '1999')">₹1999</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
+<a href="tel:9239394050" class="floating-call" title="Help ke liye call karein">📞</a>
+
 <script>
+    const myNumber = "9239394050";
+
     function nextStep(step) {
         document.querySelectorAll('.step-page').forEach(page => page.classList.remove('active'));
         document.getElementById('step' + step).classList.add('active');
-        
         document.querySelectorAll('.progress-step').forEach((dot, index) => {
-            if(index < step) dot.classList.add('active');
-            else dot.classList.remove('active');
+            index < step ? dot.classList.add('active') : dot.classList.remove('active');
         });
     }
 
-    function previewImages() {
-        const files = document.getElementById('imageInput').files;
-        const previewContainer = document.getElementById('previewContainer');
-        previewContainer.innerHTML = ''; 
-        Array.from(files).forEach(file => {
-            const reader = new FileReader();
-            reader.onload = e => {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                previewContainer.appendChild(img);
-            }
-            reader.readAsDataURL(file);
-        });
+    function showSummary() {
+        const name = document.getElementById('custName').value;
+        const phone = document.getElementById('custPhone').value;
+        const dist = document.getElementById('district').value;
+        if(!name || !phone || !dist) { alert("Details Puri bharein!"); return; }
+
+        document.getElementById('orderSummary').innerHTML = `
+            <strong>Order To:</strong> ${name}<br>
+            <strong>Phone:</strong> ${phone}<br>
+            <strong>City:</strong> ${dist}
+        `;
+        nextStep(3);
     }
 
     function sendOrder() {
         const name = document.getElementById('custName').value;
-        const email = document.getElementById('custEmail').value;
-        const phone = document.getElementById('custPhone').value;
-        const address = document.getElementById('fullAddress').value;
-        const fileCount = document.getElementById('imageInput').files.length;
+        const dist = document.getElementById('district').value;
+        const message = `*NAYA CUSTOM ORDER!*%0A*Naam:* ${name}%0A*Zila:* ${dist}%0A_Photos niche bhej raha hoon._`;
+        window.open(`https://wa.me/${myNumber}?text=${message}`, '_blank');
+    }
 
-        if(!name || !email || !address || !phone || fileCount === 0) {
-            alert("Kripya saari details bharein aur kam se kam ek photo select karein!");
-            return;
-        }
-
-        const myNumber = "9239394050"; 
-        const message = `*NAYA ART ORDER!*%0A%0A` +
-                        `*Naam:* ${name}%0A` +
-                        `*Email:* ${email}%0A` +
-                        `*Phone:* ${phone}%0A` +
-                        `*Pata:* ${address}%0A` +
-                        `*Uploaded Photos:* ${fileCount}%0A%0A` +
-                        `_Ab apni photos attach karke send karein._`;
-        
+    function buyPortrait(title, price) {
+        const name = document.getElementById('custName').value || "Customer";
+        const message = `*READY PORTRAIT!*%0A*Item:* ${title}%0A*Price:* ₹${price}%0A*Customer:* ${name}`;
         window.open(`https://wa.me/${myNumber}?text=${message}`, '_blank');
     }
 </script>
-
 </body>
 </html>
