@@ -78,7 +78,8 @@
             font-size: 15px; 
         }
 
-        .btn-group { display: flex; flex-direction: column; gap: 12px; margin-top: 25px; }
+        /* Buttons ko niche karne ke liye margin badhaya gaya hai */
+        .btn-group { display: flex; flex-direction: column; gap: 12px; margin-top: 40px; }
         .btn-row { display: flex; gap: 10px; }
         
         button { flex: 1; padding: 14px; border: none; border-radius: 4px; font-size: 15px; font-weight: bold; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
@@ -196,7 +197,7 @@
         const name = document.getElementById('custName').value;
         const phone = document.getElementById('custPhone').value;
         if(!name || !phone) { alert("Details bharein!"); return; }
-        document.getElementById('orderSummary').innerHTML = `<strong>Artist:</strong> ${name}<br><strong>Contact:</strong> ${phone}`;
+        document.getElementById('orderSummary').innerHTML = `<strong>Client:</strong> ${name}<br><strong>Contact:</strong> ${phone}`;
         nextStep(3);
     }
 
@@ -231,7 +232,7 @@
         
         if(fileCount === 0) { alert("Photo select karein!"); return; }
         
-        const message = `*NAYA ORDER - HAND MADE ART*%0A%0A*Naam:* ${name}%0A*Pencil:* ${pencilName}%0A*Paper Size:* ${sizeName}%0A*Total Amount:* ₹${totalPrice}%0A*Photos:* ${fileCount}`;
+        const message = `*NAYA ORDER - HAND MADE ART*%0A%0A*Client:* ${name}%0A*Pencil:* ${pencilName}%0A*Paper Size:* ${sizeName}%0A*Total Amount:* ₹${totalPrice}%0A*Photos:* ${fileCount}`;
         window.open(`https://wa.me/${myNumber}?text=${message}`, '_blank');
     }
 
