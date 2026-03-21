@@ -3,72 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Handmade Art Store</title>
+    <title>Hand Made Art Store</title>
     <style>
-        :root { --primary: #2c3e50; --accent: #27ae60; --gray: #bdc3c7; --blue: #3498db; --gold: #f39c12; --telegram: #0088cc; }
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; padding: 0; margin: 0; color: #333; }
+        :root { 
+            --primary: #4a3f35; 
+            --accent: #8e735b; 
+            --gray: #d2c1b0; 
+            --blue: #5d8aa8; 
+            --telegram: #0088cc; 
+            --canvas: #f4f1ea;
+        }
+
+        body { 
+            font-family: 'Georgia', serif; 
+            background-color: var(--canvas);
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(142, 115, 91, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(93, 138, 168, 0.05) 0%, transparent 40%),
+                url('https://www.transparenttextures.com/patterns/canvas-orange.png');
+            padding: 0; 
+            margin: 0; 
+            color: #444; 
+        }
         
-        .offer-banner { background: var(--primary); color: white; text-align: center; padding: 8px; font-size: 13px; font-weight: bold; overflow: hidden; }
+        .offer-banner { 
+            background: var(--primary); 
+            color: #f4f1ea; 
+            text-align: center; 
+            padding: 10px; 
+            font-size: 14px; 
+            font-weight: bold; 
+            overflow: hidden; 
+            border-bottom: 2px solid var(--accent);
+        }
+
         .scrolling-text { display: inline-block; white-space: nowrap; animation: scroll-left 15s linear infinite; }
         @keyframes scroll-left { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        .container { max-width: 500px; background: white; margin: 15px auto; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .container { 
+            max-width: 480px; 
+            background: rgba(255, 255, 255, 0.95); 
+            margin: 30px auto; 
+            padding: 30px; 
+            border-radius: 8px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border: 1px solid #e0dcd0;
+        }
         
-        .progress-container { display: flex; justify-content: space-between; margin-bottom: 30px; position: relative; }
-        .progress-step { width: 30px; height: 30px; background: var(--gray); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; z-index: 1; }
+        .progress-container { display: flex; justify-content: space-between; margin-bottom: 40px; position: relative; }
+        .progress-step { 
+            width: 35px; height: 35px; 
+            background: var(--gray); 
+            border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            color: white; font-weight: bold; z-index: 1; 
+        }
         .progress-step.active { background: var(--accent); }
-        .progress-line { position: absolute; top: 15px; left: 0; height: 2px; background: var(--gray); width: 100%; z-index: 0; }
+        .progress-line { position: absolute; top: 17px; left: 0; height: 1px; background: var(--gray); width: 100%; z-index: 0; }
 
         .step-page { display: none; }
-        .step-page.active { display: block; animation: fadeIn 0.4s; }
+        .step-page.active { display: block; animation: fadeIn 0.6s ease-out; }
 
-        h2 { text-align: center; color: var(--primary); margin-top: 0; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-size: 0.9em; font-weight: bold; }
-        input, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        h2 { text-align: center; color: var(--primary); font-style: italic; border-bottom: 1px double var(--accent); padding-bottom: 10px; }
+
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-size: 0.95em; font-weight: 600; }
         
-        .btn-group { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+        input, textarea, select { 
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid #dcd9d0; 
+            border-radius: 4px; 
+            box-sizing: border-box; 
+            font-size: 15px; 
+        }
+
+        .btn-group { display: flex; flex-direction: column; gap: 12px; margin-top: 25px; }
         .btn-row { display: flex; gap: 10px; }
-        button { flex: 1; padding: 12px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
         
-        .btn-next { background: var(--primary); color: white; }
-        .btn-prev { background: #eee; color: #555; }
+        button { flex: 1; padding: 14px; border: none; border-radius: 4px; font-size: 15px; font-weight: bold; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
+        
+        .btn-next { background: var(--primary); color: #f4f1ea; }
+        .btn-prev { background: #e8e4db; color: #7a6e63; }
         .btn-whatsapp { background: #25D366; color: white; }
         .btn-telegram { background: var(--telegram); color: white; }
         
-        .upload-section { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+        .upload-section { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 15px; }
         .plus-btn-label {
-            width: 80px; height: 80px;
-            border: 2px dashed #aaa;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-            color: #888;
-            cursor: pointer;
-            transition: 0.3s;
-            background: #fafafa;
+            width: 70px; height: 70px;
+            border: 1px dashed var(--accent);
+            border-radius: 4px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; color: var(--accent);
+            cursor: pointer; background: #fffdfa;
         }
-        .plus-btn-label:hover { border-color: var(--accent); color: var(--accent); background: #f0fff4; }
         #imageInput { display: none; }
+        .preview-img { width: 70px; height: 70px; object-fit: cover; border-radius: 4px; border: 1px solid #d2c1b0; }
+        .summary-box { background: #fdfaf3; padding: 15px; border-radius: 4px; border: 1px solid #e8e4db; margin-bottom: 20px; font-size: 14px; }
 
-        .preview-img { width: 80px; height: 80px; object-fit: cover; border-radius: 12px; border: 1px solid #ddd; }
-        .summary-box { background: #f9f9f9; padding: 10px; border-radius: 8px; border-left: 4px solid var(--accent); margin-bottom: 15px; font-size: 13px; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .floating-call { position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; background: var(--blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); text-decoration: none; z-index: 100; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
 <div class="offer-banner">
-    <div class="scrolling-text">🎁 10% Discount on First Custom Order! • Free Home Delivery • Order Now! 🎁</div>
+    <div class="scrolling-text">🎁 10% Discount on Your First Custom Order! • Order Now! 🎁</div>
 </div>
 
 <div class="container">
-    <h2>Art Store</h2>
+    <h2>Hand Made Art</h2>
 
     <div class="progress-container">
         <div class="progress-line"></div>
@@ -81,7 +124,7 @@
         <div class="form-group"><label>Pura Naam</label><input type="text" id="custName" placeholder="Naam likhein"></div>
         <div class="form-group"><label>Gmail ID</label><input type="email" id="custEmail" placeholder="example@gmail.com"></div>
         <div class="form-group"><label>Phone Number</label><input type="tel" id="custPhone" placeholder="Mobile number"></div>
-        <div class="btn-group"><button class="btn-next" onclick="nextStep(2)">Aage Badhein</button></div>
+        <div class="btn-group"><button class="btn-next" onclick="nextStep(2)">Agla Kadam</button></div>
     </div>
 
     <div class="step-page" id="step2">
@@ -101,7 +144,25 @@
         <div id="orderSummary" class="summary-box"></div>
         
         <div class="form-group">
-            <label>Apni Photo Upload Karein (+ Icon dabayein)</label>
+            <label>Pencil Ka Prakar (Medium)</label>
+            <select id="pencilType">
+                <option value="Normal Pencil" data-price="0">Normal Pencil (Free)</option>
+                <option value="Charcoal Pencil" data-price="200">Charcoal Pencil (+ ₹200)</option>
+                <option value="Pencil Charcoal Mixed" data-price="200">Pencil & Charcoal Mixed (+ ₹200)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Paper Size Aur Price</label>
+            <select id="paperSize">
+                <option value="A4" data-price="999">A4 Size - ₹999</option>
+                <option value="A3" data-price="1999">A3 Size - ₹1999</option>
+                <option value="A2" data-price="2999">A2 Size - ₹2999</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Photo Upload Karein</label>
             <div class="upload-section">
                 <div id="previewContainer" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
                 <label for="imageInput" class="plus-btn-label">+</label>
@@ -119,8 +180,6 @@
     </div>
 </div>
 
-<a href="tel:9239394050" class="floating-call">📞</a>
-
 <script>
     const myNumber = "9239394050";
     const telegramLink = "https://t.me/y9y2y3";
@@ -136,8 +195,8 @@
     function showSummary() {
         const name = document.getElementById('custName').value;
         const phone = document.getElementById('custPhone').value;
-        if(!name || !phone) { alert("Details Puri bharein!"); return; }
-        document.getElementById('orderSummary').innerHTML = `<strong>Order To:</strong> ${name}<br><strong>Phone:</strong> ${phone}`;
+        if(!name || !phone) { alert("Details bharein!"); return; }
+        document.getElementById('orderSummary').innerHTML = `<strong>Artist:</strong> ${name}<br><strong>Contact:</strong> ${phone}`;
         nextStep(3);
     }
 
@@ -159,16 +218,26 @@
 
     function sendOrder() {
         const name = document.getElementById('custName').value;
+        const pencilSelect = document.getElementById('pencilType');
+        const pencilName = pencilSelect.options[pencilSelect.selectedIndex].value;
+        const pencilPrice = parseInt(pencilSelect.options[pencilSelect.selectedIndex].getAttribute('data-price'));
+
+        const sizeSelect = document.getElementById('paperSize');
+        const sizeName = sizeSelect.options[sizeSelect.selectedIndex].value;
+        const paperPrice = parseInt(sizeSelect.options[sizeSelect.selectedIndex].getAttribute('data-price'));
+
+        const totalPrice = pencilPrice + paperPrice;
         const fileCount = document.getElementById('imageInput').files.length;
-        if(fileCount === 0) { alert("Kam se kam ek photo select karein!"); return; }
-        const message = `*NAYA ORDER!*%0A*Naam:* ${name}%0A*Photos:* ${fileCount}%0A_Maine photos attach kar di hain._`;
+        
+        if(fileCount === 0) { alert("Photo select karein!"); return; }
+        
+        const message = `*NAYA ORDER - HAND MADE ART*%0A%0A*Naam:* ${name}%0A*Pencil:* ${pencilName}%0A*Paper Size:* ${sizeName}%0A*Total Amount:* ₹${totalPrice}%0A*Photos:* ${fileCount}`;
         window.open(`https://wa.me/${myNumber}?text=${message}`, '_blank');
     }
 
     function sendTelegramOrder() {
         const name = document.getElementById('custName').value;
-        if(!name) { alert("Pehle apni details bharein!"); nextStep(1); return; }
-        // Telegram par direct message text support nahi karta link mein, isliye channel link open hoga
+        if(!name) { alert("Pehle details bharein!"); nextStep(1); return; }
         window.open(telegramLink, '_blank');
     }
 </script>
