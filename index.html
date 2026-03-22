@@ -78,7 +78,6 @@
             font-size: 15px; 
         }
 
-        /* Buttons ko niche karne ke liye margin badhaya gaya hai */
         .btn-group { display: flex; flex-direction: column; gap: 12px; margin-top: 40px; }
         .btn-row { display: flex; gap: 10px; }
         
@@ -86,8 +85,7 @@
         
         .btn-next { background: var(--primary); color: #f4f1ea; }
         .btn-prev { background: #e8e4db; color: #7a6e63; }
-        .btn-whatsapp { background: #25D366; color: white; }
-        .btn-telegram { background: var(--telegram); color: white; }
+        .btn-telegram { background: var(--telegram); color: white; width: 100%; }
         
         .upload-section { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 15px; }
         .plus-btn-label {
@@ -173,16 +171,14 @@
 
         <div class="btn-group">
             <div class="btn-row">
-                <button class="btn-prev" onclick="nextStep(2)">Badle</button>
-                <button class="btn-whatsapp" onclick="sendOrder()">Order on WhatsApp</button>
+                <button class="btn-prev" style="flex: 0.3;" onclick="nextStep(2)">Badle</button>
+                <button class="btn-telegram" style="flex: 1;" onclick="sendTelegramOrder()">Order on Telegram</button>
             </div>
-            <button class="btn-telegram" onclick="sendTelegramOrder()">Order on Telegram</button>
         </div>
     </div>
 </div>
 
 <script>
-    const myNumber = "9239394050";
     const telegramLink = "https://t.me/y9y2y3";
 
     function nextStep(step) {
@@ -196,7 +192,7 @@
     function showSummary() {
         const name = document.getElementById('custName').value;
         const phone = document.getElementById('custPhone').value;
-        if(!name || !phone) { alert("Details bharein!"); return; }
+        if(!name || !phone) { alert("Pehle details bharein!"); return; }
         document.getElementById('orderSummary').innerHTML = `<strong>Client:</strong> ${name}<br><strong>Contact:</strong> ${phone}`;
         nextStep(3);
     }
@@ -217,28 +213,14 @@
         });
     }
 
-    function sendOrder() {
-        const name = document.getElementById('custName').value;
-        const pencilSelect = document.getElementById('pencilType');
-        const pencilName = pencilSelect.options[pencilSelect.selectedIndex].value;
-        const pencilPrice = parseInt(pencilSelect.options[pencilSelect.selectedIndex].getAttribute('data-price'));
-
-        const sizeSelect = document.getElementById('paperSize');
-        const sizeName = sizeSelect.options[sizeSelect.selectedIndex].value;
-        const paperPrice = parseInt(sizeSelect.options[sizeSelect.selectedIndex].getAttribute('data-price'));
-
-        const totalPrice = pencilPrice + paperPrice;
-        const fileCount = document.getElementById('imageInput').files.length;
-        
-        if(fileCount === 0) { alert("Photo select karein!"); return; }
-        
-        const message = `*NAYA ORDER - HAND MADE ART*%0A%0A*Client:* ${name}%0A*Pencil:* ${pencilName}%0A*Paper Size:* ${sizeName}%0A*Total Amount:* ₹${totalPrice}%0A*Photos:* ${fileCount}`;
-        window.open(`https://wa.me/${myNumber}?text=${message}`, '_blank');
-    }
-
     function sendTelegramOrder() {
         const name = document.getElementById('custName').value;
-        if(!name) { alert("Pehle details bharein!"); nextStep(1); return; }
+        if(!name) { 
+            alert("Pehle details bharein!"); 
+            nextStep(1); 
+            return; 
+        }
+        // Telegram par direct user ki profile ya channel khulega
         window.open(telegramLink, '_blank');
     }
 </script>
