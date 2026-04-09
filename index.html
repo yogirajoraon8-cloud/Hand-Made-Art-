@@ -1,228 +1,212 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hand Made Art Store</title>
-    <style>
-        :root { 
-            --primary: #4a3f35; 
-            --accent: #8e735b; 
-            --gray: #d2c1b0; 
-            --blue: #5d8aa8; 
-            --telegram: #0088cc; 
-            --canvas: #f4f1ea;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Art Store Admin Pro</title>
 
-        body { 
-            font-family: 'Georgia', serif; 
-            background-color: var(--canvas);
-            background-image: 
-                radial-gradient(circle at 20% 30%, rgba(142, 115, 91, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(93, 138, 168, 0.05) 0%, transparent 40%),
-                url('https://www.transparenttextures.com/patterns/canvas-orange.png');
-            padding: 0; 
-            margin: 0; 
-            color: #444; 
-        }
-        
-        .offer-banner { 
-            background: var(--primary); 
-            color: #f4f1ea; 
-            text-align: center; 
-            padding: 10px; 
-            font-size: 14px; 
-            font-weight: bold; 
-            overflow: hidden; 
-            border-bottom: 2px solid var(--accent);
-        }
+<style>
+body{font-family:Arial;margin:0;background:#f4f1ea;}
+.page{display:none;padding:20px;}
+.active{display:block;}
 
-        .scrolling-text { display: inline-block; white-space: nowrap; animation: scroll-left 15s linear infinite; }
-        @keyframes scroll-left { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+.card{
+background:#fff;
+padding:20px;
+border-radius:12px;
+max-width:500px;
+margin:auto;
+margin-bottom:15px;
+}
 
-        .container { 
-            max-width: 480px; 
-            background: rgba(255, 255, 255, 0.95); 
-            margin: 30px auto; 
-            padding: 30px; 
-            border-radius: 8px; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            border: 1px solid #e0dcd0;
-        }
-        
-        .progress-container { display: flex; justify-content: space-between; margin-bottom: 40px; position: relative; }
-        .progress-step { 
-            width: 35px; height: 35px; 
-            background: var(--gray); 
-            border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; 
-            color: white; font-weight: bold; z-index: 1; 
-        }
-        .progress-step.active { background: var(--accent); }
-        .progress-line { position: absolute; top: 17px; left: 0; height: 1px; background: var(--gray); width: 100%; z-index: 0; }
+input,select{
+width:100%;
+padding:10px;
+margin:5px 0;
+}
 
-        .step-page { display: none; }
-        .step-page.active { display: block; animation: fadeIn 0.6s ease-out; }
+button{
+width:100%;
+padding:12px;
+background:#4a3f35;
+color:#fff;
+border:none;
+margin-top:5px;
+}
 
-        h2 { text-align: center; color: var(--primary); font-style: italic; border-bottom: 1px double var(--accent); padding-bottom: 10px; }
+.order-box{
+background:#fff;
+padding:10px;
+margin:10px 0;
+border-radius:8px;
+}
 
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-size: 0.95em; font-weight: 600; }
-        
-        input, textarea, select { 
-            width: 100%; 
-            padding: 12px; 
-            border: 1px solid #dcd9d0; 
-            border-radius: 4px; 
-            box-sizing: border-box; 
-            font-size: 15px; 
-        }
-
-        .btn-group { display: flex; flex-direction: column; gap: 12px; margin-top: 40px; }
-        .btn-row { display: flex; gap: 10px; }
-        
-        button { flex: 1; padding: 14px; border: none; border-radius: 4px; font-size: 15px; font-weight: bold; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
-        
-        .btn-next { background: var(--primary); color: #f4f1ea; }
-        .btn-prev { background: #e8e4db; color: #7a6e63; }
-        .btn-telegram { background: var(--telegram); color: white; width: 100%; }
-        
-        .upload-section { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 15px; }
-        .plus-btn-label {
-            width: 70px; height: 70px;
-            border: 1px dashed var(--accent);
-            border-radius: 4px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 24px; color: var(--accent);
-            cursor: pointer; background: #fffdfa;
-        }
-        #imageInput { display: none; }
-        .preview-img { width: 70px; height: 70px; object-fit: cover; border-radius: 4px; border: 1px solid #d2c1b0; }
-        .summary-box { background: #fdfaf3; padding: 15px; border-radius: 4px; border: 1px solid #e8e4db; margin-bottom: 20px; font-size: 14px; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
+.nav{
+position:fixed;
+bottom:0;
+width:100%;
+background:#4a3f35;
+color:#fff;
+display:flex;
+justify-content:space-around;
+padding:10px;
+cursor:pointer;
+}
+</style>
 </head>
+
 <body>
 
-<div class="offer-banner">
-    <div class="scrolling-text">🎁 10% Discount on Your First Custom Order! • Order Now! 🎁</div>
+<!-- ORDER PAGE -->
+<div id="order" class="page active">
+<div class="card">
+
+<h2>Place Order</h2>
+
+<input id="name" placeholder="Name">
+<input id="phone" placeholder="Phone">
+
+<select id="size">
+<option value="999">A4 ₹999</option>
+<option value="1999">A3 ₹1999</option>
+</select>
+
+<button onclick="placeOrder()">Order</button>
+
+<div id="result"></div>
+
+</div>
 </div>
 
-<div class="container">
-    <h2>Hand Made Art</h2>
+<!-- ADMIN LOGIN -->
+<div id="adminLogin" class="page">
+<div class="card">
 
-    <div class="progress-container">
-        <div class="progress-line"></div>
-        <div class="progress-step active" id="p1">1</div>
-        <div class="progress-step" id="p2">2</div>
-        <div class="progress-step" id="p3">3</div>
-    </div>
+<h2>Admin Login</h2>
+<input id="adminPass" placeholder="Password">
+<button onclick="login()">Login</button>
 
-    <div class="step-page active" id="step1">
-        <div class="form-group"><label>Pura Naam</label><input type="text" id="custName" placeholder="Naam likhein"></div>
-        <div class="form-group"><label>Gmail ID</label><input type="email" id="custEmail" placeholder="example@gmail.com"></div>
-        <div class="form-group"><label>Phone Number</label><input type="tel" id="custPhone" placeholder="Mobile number"></div>
-        <div class="btn-group"><button class="btn-next" onclick="nextStep(2)">Agla Kadam</button></div>
-    </div>
-
-    <div class="step-page" id="step2">
-        <div class="form-group"><label>Ghar ka Pata</label><textarea id="houseAddress" rows="2"></textarea></div>
-        <div class="form-group"><label>District</label><input type="text" id="district"></div>
-        <div class="form-group"><label>State</label><input type="text" id="state"></div>
-        <div class="form-group"><label>Pin Code</label><input type="number" id="pincode"></div>
-        <div class="btn-group">
-            <div class="btn-row">
-                <button class="btn-prev" onclick="nextStep(1)">Peeche</button>
-                <button class="btn-next" onclick="showSummary()">Details Check Karein</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="step-page" id="step3">
-        <div id="orderSummary" class="summary-box"></div>
-        
-        <div class="form-group">
-            <label>Pencil Ka Prakar (Medium)</label>
-            <select id="pencilType">
-                <option value="Normal Pencil" data-price="0">Normal Pencil (Free)</option>
-                <option value="Charcoal Pencil" data-price="200">Charcoal Pencil (+ ₹200)</option>
-                <option value="Pencil Charcoal Mixed" data-price="200">Pencil & Charcoal Mixed (+ ₹200)</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label>Paper Size Aur Price</label>
-            <select id="paperSize">
-                <option value="A4" data-price="999">A4 Size - ₹999</option>
-                <option value="A3" data-price="1999">A3 Size - ₹1999</option>
-                <option value="A2" data-price="2999">A2 Size - ₹2999</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label>Photo Upload Karein</label>
-            <div class="upload-section">
-                <div id="previewContainer" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
-                <label for="imageInput" class="plus-btn-label">+</label>
-                <input type="file" id="imageInput" accept="image/*" multiple onchange="previewImages()">
-            </div>
-        </div>
-
-        <div class="btn-group">
-            <div class="btn-row">
-                <button class="btn-prev" style="flex: 0.3;" onclick="nextStep(2)">Badle</button>
-                <button class="btn-telegram" style="flex: 1;" onclick="sendTelegramOrder()">Order on Telegram</button>
-            </div>
-        </div>
-    </div>
 </div>
+</div>
+
+<!-- ADMIN DASHBOARD -->
+<div id="admin" class="page">
+
+<h2 style="text-align:center;">📊 Admin Dashboard</h2>
+<div id="ordersList"></div>
+
+</div>
+
+<!-- NAV -->
+<div class="nav">
+<div onclick="showPage('order')">Order</div>
+<div onclick="showPage('adminLogin')">Admin</div>
+</div>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
 <script>
-    const telegramLink = "https://t.me/y9y2y3";
 
-    function nextStep(step) {
-        document.querySelectorAll('.step-page').forEach(page => page.classList.remove('active'));
-        document.getElementById('step' + step).classList.add('active');
-        document.querySelectorAll('.progress-step').forEach((dot, index) => {
-            index < step ? dot.classList.add('active') : dot.classList.remove('active');
-        });
-    }
+// 🔥 PASTE YOUR FIREBASE CONFIG HERE
+const firebaseConfig = {
+  apiKey: "YOUR_KEY",
+  authDomain: "YOUR_DOMAIN",
+  projectId: "YOUR_PROJECT"
+};
 
-    function showSummary() {
-        const name = document.getElementById('custName').value;
-        const phone = document.getElementById('custPhone').value;
-        if(!name || !phone) { alert("Pehle details bharein!"); return; }
-        document.getElementById('orderSummary').innerHTML = `<strong>Client:</strong> ${name}<br><strong>Contact:</strong> ${phone}`;
-        nextStep(3);
-    }
+// INIT
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
-    function previewImages() {
-        const files = document.getElementById('imageInput').files;
-        const container = document.getElementById('previewContainer');
-        container.innerHTML = ''; 
-        Array.from(files).forEach(file => {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.className = 'preview-img';
-                container.appendChild(img);
-            }
-            reader.readAsDataURL(file);
-        });
-    }
+// PAGE SWITCH
+function showPage(p){
+document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+document.getElementById(p).classList.add("active");
+}
 
-    function sendTelegramOrder() {
-        const name = document.getElementById('custName').value;
-        if(!name) { 
-            alert("Pehle details bharein!"); 
-            nextStep(1); 
-            return; 
-        }
-        // Telegram par direct user ki profile ya channel khulega
-        window.open(telegramLink, '_blank');
-    }
+// ORDER
+async function placeOrder(){
+
+let name=nameInput.value;
+let phone=phoneInput.value;
+let amount=size.value;
+
+if(!name || phone.length!=10){
+alert("Invalid details");
+return;
+}
+
+let id="ORD"+Math.floor(Math.random()*1000000);
+
+// SAVE FIREBASE
+await db.collection("orders").add({
+id,name,phone,amount,status:"Pending"
+});
+
+// WHATSAPP
+let msg=`Order ID: ${id}
+Name: ${name}
+Amount: ₹${amount}`;
+
+window.open(`https://wa.me/91XXXXXXXXXX?text=${encodeURIComponent(msg)}`);
+
+result.innerHTML="✅ Order Saved & Sent!";
+
+}
+
+// LOGIN
+function login(){
+if(adminPass.value==="1234"){
+showPage("admin");
+loadOrders();
+}else{
+alert("Wrong Password");
+}
+}
+
+// LOAD ORDERS (REAL-TIME)
+function loadOrders(){
+
+db.collection("orders").onSnapshot(snapshot=>{
+
+let html="";
+
+snapshot.forEach(doc=>{
+
+let o=doc.data();
+
+html+=`
+<div class="order-box">
+<b>${o.id}</b><br>
+${o.name} - ${o.phone}<br>
+₹${o.amount} - ${o.status}
+
+<button onclick="updateStatus('${doc.id}')">
+Mark Completed
+</button>
+</div>
+`;
+
+});
+
+ordersList.innerHTML=html;
+
+});
+
+}
+
+// UPDATE STATUS
+function updateStatus(docId){
+
+db.collection("orders").doc(docId).update({
+status:"Completed"
+});
+
+}
+
 </script>
+
 </body>
 </html>
